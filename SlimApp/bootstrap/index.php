@@ -20,5 +20,10 @@ $middleware($app);
 
 $routes = require __DIR__ . '/../config/router.php';
 $routes($app); 
-
-$app->run();
+// try {
+//     $app->run();
+// } catch (Throwable $exception) {
+//     http_response_code(400);
+//     echo sprintf('Bad Request: %s', $exception->getCode() ." ". $exception->getMessage());
+// }
+ $app->run();
