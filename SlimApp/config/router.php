@@ -1,9 +1,6 @@
 <?php
 
-use App\Middleware\BadRequest;
-use App\Middleware\NotFound;
 use Slim\App;
-
 
 require __DIR__ .'/../config/dbconnection.php'; 
 

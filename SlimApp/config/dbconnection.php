@@ -10,7 +10,7 @@ class dbConnection extends PDO{
     private $data_inserted = array(
         'success' => true,
         'message' => 'data inserted successfully',
-        'status_code'=>200
+        'status_code'=>201
     );
     private $data_deleted = array(
         'success'=>true,
@@ -28,7 +28,7 @@ class dbConnection extends PDO{
     {
        $this->dbcon = parent::__construct("mysql:host=$this->host; dbname=$this->database",$this->user,$this->password);
     }
-   
+    
     function fetch_all(dbConnection $con){
         $sql = "SELECT * FROM users_table";
         $stmt = $con->query($sql);
