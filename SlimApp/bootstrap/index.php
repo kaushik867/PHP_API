@@ -3,6 +3,7 @@
 use DI\Container;
 use Slim\Factory\AppFactory;
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/FileMaker.php';
 
 $container = new Container();
 $settings=require __DIR__ . '/../config/settings.php';
