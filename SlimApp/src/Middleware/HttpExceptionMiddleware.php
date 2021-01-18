@@ -9,8 +9,6 @@ use Slim\Exception\HttpException;
 
 class HttpExceptionMiddleware 
 {
-    
-    
     public function __invoke(ServerRequestInterface $request,RequestHandlerInterface $handler) :Response
     {
         try {

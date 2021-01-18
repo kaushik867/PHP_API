@@ -3,7 +3,6 @@
 namespace App\controller;
 
 use dbConnection;
-use PDOException;
 use Psr\http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Container\ContainerInterface;
@@ -20,6 +19,10 @@ class RouteController extends dbConnection{
         $con = new dbConnection();
         $result = $con->fetch_all($con);
         $response->getBody()->write(json_encode($result));
+        if(array_key_exists('status_code', $result))
+        {
+            return $response->withStatus($result['status_code']);
+        }
         return $response;
     }
 
@@ -27,6 +30,10 @@ class RouteController extends dbConnection{
         $con = new dbConnection();
         $result = $con->fetch($con, $args);
         $response->getBody()->write(json_encode($result));
+        if(array_key_exists('status_code', $result))
+        {
+            return $response->withStatus($result['status_code']);
+        }
         return $response;
     } 
 
@@ -35,7 +42,7 @@ class RouteController extends dbConnection{
         $postArr = $request->getParsedBody();
         $result = $con->add_data($con, $postArr);
         $response->getBody()->write(json_encode($result));
-        return $response;
+        return $response->withStatus($result['status_code']);
     }
 
     public function del_cust(ServerRequestInterface $request, ResponseInterface $response, $args){
