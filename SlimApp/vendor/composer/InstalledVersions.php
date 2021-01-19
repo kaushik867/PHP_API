@@ -24,24 +24,24 @@ class InstalledVersions
 private static $installed = array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
+    'reference' => '28721f4e82f746f94e45c633cf5fa07f7dfb1cd4',
     'name' => '__root__',
   ),
   'versions' => 
   array (
     '__root__' => 
     array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => NULL,
+      'reference' => '28721f4e82f746f94e45c633cf5fa07f7dfb1cd4',
     ),
     'fig/http-message-util' => 
     array (
@@ -51,6 +51,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '9d94dc0154230ac39e5bf89398b324a86f63f765',
+    ),
+    'graham-campbell/result-type' => 
+    array (
+      'pretty_version' => 'v1.0.1',
+      'version' => '1.0.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '7e279d2cd5d7fbb156ce46daada972355cea27bb',
     ),
     'nikic/fast-route' => 
     array (
@@ -96,6 +105,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '66daff34cbd2627740ffec9469ffbac9f8c8185c',
+    ),
+    'phpoption/phpoption' => 
+    array (
+      'pretty_version' => '1.7.5',
+      'version' => '1.7.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '994ecccd8f3283ecf5ac33254543eb0ac946d525',
     ),
     'psr/container' => 
     array (
@@ -199,6 +217,24 @@ private static $installed = array (
       ),
       'reference' => '0905e0775f8c1cfb3bbcfabeb6588dcfd8b82d3f',
     ),
+    'symfony/polyfill-ctype' => 
+    array (
+      'pretty_version' => 'v1.22.0',
+      'version' => '1.22.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'c6c942b1ac76c82448322025e084cadc56048b4e',
+    ),
+    'symfony/polyfill-mbstring' => 
+    array (
+      'pretty_version' => 'v1.22.0',
+      'version' => '1.22.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'f377a3dd1fde44d37b9831d68dc8dea3ffd28e13',
+    ),
     'symfony/polyfill-php80' => 
     array (
       'pretty_version' => 'v1.20.0',
@@ -207,6 +243,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'e70aa8b064c5b72d3df2abd5ab1e90464ad009de',
+    ),
+    'vlucas/phpdotenv' => 
+    array (
+      'pretty_version' => 'v5.2.0',
+      'version' => '5.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'fba64139db67123c7a57072e5f8d3db10d160b66',
     ),
   ),
 );

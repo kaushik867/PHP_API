@@ -18,4 +18,7 @@ $middleware($app);
 $routes = require __DIR__ . '/../config/router.php';
 $routes($app); 
 
- $app->run();
+$Dotenv = $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../vendor/');
+$Dotenv->load();
+
+$app->run();

@@ -1,11 +1,10 @@
 <?php
 
 namespace App\controller;
-
-use dbConnection;
 use Psr\http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Container\ContainerInterface;
+use App\database\dbConnection;
 
 class RouteController extends dbConnection{
 

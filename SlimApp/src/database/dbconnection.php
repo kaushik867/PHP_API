@@ -1,12 +1,7 @@
 <?php
-
+namespace App\database;
+use FileMaker;
 class dbConnection extends FileMaker {
-
-    private $host='192.168.10.62';
-    private $user='Admin';
-    private $password='mindfire';
-    private $database='Contacts';
-    private $fm;
 
     private $data_inserted = array(
         'success' => true,
@@ -35,7 +30,7 @@ class dbConnection extends FileMaker {
 
     function __construct()
     {
-       return parent::FileMaker($this->database, $this->host, $this->user, $this->password); 
+       return parent::FileMaker($_ENV['DATABASE'], $_ENV['HOST'], $_ENV['USER'], $_ENV['PASSWORD']); 
     }
     
     function fetch_all($fm)
