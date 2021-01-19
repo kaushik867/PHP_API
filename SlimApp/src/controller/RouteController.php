@@ -1,61 +1,55 @@
 <?php
 
 namespace App\controller;
+
 use Psr\http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Container\ContainerInterface;
-use App\database\dbConnection;
+use App\database\DbConnection;
 
-class RouteController extends dbConnection{
-
-    private $ci;
-    function __construct(ContainerInterface $ci)
-    {
-        $this->ci = $ci;
-    }
+class RouteController extends DbConnection{
     
-    public function fetch_all_data(ServerRequestInterface $request, ResponseInterface $response ){
-        $con = new dbConnection();
-        $result = $con->fetch_all($con);
+    public function getEmpDetails(ServerRequestInterface $request, ResponseInterface $response ){
+        $connection = new DbConnection();
+        $result = $connection->getEmployee($connection);
         $response->getBody()->write(json_encode($result));
-        if(array_key_exists('status_code', $result))
+        if(array_key_exists('status', $result))
         {
-            return $response->withStatus($result['status_code']);
+            return $response->withStatus($result['status']);
         }
         return $response;
     }
 
-    public function fetch_data(ServerRequestInterface $request, ResponseInterface $response, $args){
-        $con = new dbConnection();
-        $result = $con->fetch($con, $args);
+    public function getEmpDetail(ServerRequestInterface $request, ResponseInterface $response, $args){
+        $connection = new DbConnection();
+        $result = $connection->getEmployeeById($connection, $args);
         $response->getBody()->write(json_encode($result));
-        if(array_key_exists('status_code', $result))
+        if(array_key_exists('status', $result))
         {
-            return $response->withStatus($result['status_code']);
+            return $response->withStatus($result['status']);
         }
         return $response;
     } 
 
-    public function add_cust(ServerRequestInterface $request, ResponseInterface $response, $args){
-        $con = new dbConnection();
+    public function addEmpDetail(ServerRequestInterface $request, ResponseInterface $response, $args){
+        $connection = new DbConnection();
         $postArr = $request->getParsedBody();
-        $result = $con->add_data($con, $postArr);
+        $result = $connection->addEmployee($connection, $postArr);
         $response->getBody()->write(json_encode($result));
-        return $response->withStatus($result['status_code']);
+        return $response->withStatus($result['status']);
     }
 
-    public function del_cust(ServerRequestInterface $request, ResponseInterface $response, $args){
-        $con = new dbConnection();
-        $result = $con->del_data($con,$args);
+    public function deleteEmpDetail(ServerRequestInterface $request, ResponseInterface $response, $args){
+        $connection = new DbConnection();
+        $result = $connection->delEmployee($connection,$args);
         $response->getBody()->write(json_encode($result));
-        return $response->withStatus($result['status_code']);
+        return $response->withStatus($result['status']);
     }
 
-    public function update_cust(ServerRequestInterface $request, ResponseInterface $response, $args){
-        $con = new dbConnection();
+    public function updateEmpDetail(ServerRequestInterface $request, ResponseInterface $response, $args){
+        $connection = new DbConnection();
         $putArr = $request->getParsedBody();
-        $result = $con->update_data($con,$args,$putArr);
+        $result = $connection->updateEmployee($connection,$args,$putArr);
         $response->getBody()->write(json_encode($result));
-        return $response->withStatus($result['status_code']);
+        return $response->withStatus($result['status']);
     }
 }

@@ -9,6 +9,9 @@ $container = new Container();
 $settings=require __DIR__ . '/../config/settings.php';
 $settings($container);
 
+// $logger = require __DIR__ . '/../config/logger.php';
+// $container['logger'] = $logger($container);
+
 AppFactory::setContainer($container);
 $app = AppFactory::create();
 

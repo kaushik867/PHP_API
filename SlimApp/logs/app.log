@@ -1,0 +1,1 @@
+[2021-01-19T14:52:29.357598+01:00] Slim-app.DEBUG: Error {"code":"101","message":"Record is missing","file":"D:\\Git\\PHP_API\\SlimApp\\src\\database\\DbConnection.php","line":84} {"uid":"99ab9f7"}

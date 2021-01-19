@@ -1,31 +1,34 @@
 <?php
 namespace App\database;
+
 use FileMaker;
-class dbConnection extends FileMaker {
+use App\logs\ErrorLog;
+
+class DbConnection extends FileMaker {
 
     private $data_inserted = array(
         'success' => true,
         'message' => 'data inserted successfully',
-        'status_code'=>201
+        'status'=>201
     );
 
     private $data_updated = array(
         'success'=>true,
         'message'=>'data updated successfully',
-        'status_code'=>200
+        'status'=>200
     );
 
     private $data_not_found = array(
         'sucess' => false,
         'message' => 'record not found',
-        'status_code' => 404
+        'status' => 404
     );
 
     private $error = array(
         'success'=>false,
         'error'=>'internal server error',
         'message'=>'something went wrong internally',
-        'status_code'=>500
+        'status'=>500
     );
 
     function __construct()
@@ -33,135 +36,137 @@ class dbConnection extends FileMaker {
        return parent::FileMaker($_ENV['DATABASE'], $_ENV['HOST'], $_ENV['USER'], $_ENV['PASSWORD']); 
     }
     
-    function fetch_all($fm)
+    function getEmployee($fm)
     {
         $find = $fm->newFindCommand('Contact Details');
         $result = $find->execute();
         if(FileMaker::isError($result))
         {
+            new ErrorLog($result);
             return $this->error;
         }
 
         $records = $result->getRecords();
         $data = array(array());
-        $i=0;
+        $index=0;
 
-        foreach($records as $rec){
-            $data[$i]['id'] = $rec->getRecordId();
-            $data[$i]['title'] = $rec->getField('Title_xt');
-            $data[$i]['firstname'] = $rec->getField('FirstName_xt');
-            $data[$i]['lastname'] = $rec->getField('LastName_xt');
-            $data[$i]['job'] = $rec->getField('JobTitle_xt');
-            $data[$i]['company'] = $rec->getField('Company_xt');
+        foreach($records as $record){
+            $data[$index]['id'] = $record->getRecordId();
+            $data[$index]['title'] = $record->getField('Title_xt');
+            $data[$index]['firstname'] = $record->getField('FirstName_xt');
+            $data[$index]['lastname'] = $record->getField('LastName_xt');
+            $data[$index]['job'] = $record->getField('JobTitle_xt');
+            $data[$index]['company'] = $record->getField('Company_xt');
     
-            $relatedPhoneRecords = $rec->getRelatedSet('contacts_PHONENUMBERS');
+            $relatedPhoneRecords = $record->getRelatedSet('contacts_PHONENUMBERS');
             if(is_array($relatedPhoneRecords))
             {
                 foreach($relatedPhoneRecords as $phoneDetails)
                 {
-                    $data[$i]['phone'][strtolower($phoneDetails->getField('contacts_PHONENUMBERS::Type_xt'))] = $phoneDetails->getField('contacts_PHONENUMBERS::Number_xn');
+                    $data[$index]['phone'][$phoneDetails->getField('contacts_PHONENUMBERS::Type_xt')] = $phoneDetails->getField('contacts_PHONENUMBERS::Number_xn');
                 }
             }
                 
-            $relatedEmailRecords = $rec->getRelatedSet('contacts_EMAIL');
+            $relatedEmailRecords = $record->getRelatedSet('contacts_EMAIL');
             if(is_array($relatedEmailRecords)){
                 foreach($relatedEmailRecords as $emialDetails)
                 {
-                    $data[$i]['email'][strtolower($emialDetails->getField('contacts_EMAIL::Type_xt'))] = $emialDetails->getField('contacts_EMAIL::Email_xt');
+                    $data[$index]['email'][$emialDetails->getField('contacts_EMAIL::Type_xt')] = $emialDetails->getField('contacts_EMAIL::Email_xt');
                 }
             }
-            $i++;
+            $index++;
        }
     
        return $data;
     }
 
-    function fetch( $fm ,$args )
+    function getEmployeeById( $fm ,$args )
     {
-        $rec = $fm->getRecordById('Contact Details',$args['id']);
-        if(FileMaker::isError($rec))
+        $record = $fm->getRecordById('Contact Details',$args['id']);
+        if(FileMaker::isError($record))
         {
-            if($rec->getCode() == 101)
+            if($record->getCode() == 101)
             {
+                new ErrorLog($record);
                 return $this->data_not_found;
             }
         }
 
         $data = array();
-        $data['id'] = $rec->getRecordId();
-        $data['title'] = $rec->getField('Title_xt');
-        $data['firstname'] = $rec->getField('FirstName_xt');
-        $data['lastname'] = $rec->getField('LastName_xt');
-        $data['job'] = $rec->getField('JobTitle_xt');
-        $data['company'] = $rec->getField('Company_xt');
+        $data['id'] = $record->getRecordId();
+        $data['title'] = $record->getField('Title_xt');
+        $data['firstname'] = $record->getField('FirstName_xt');
+        $data['lastname'] = $record->getField('LastName_xt');
+        $data['job'] = $record->getField('JobTitle_xt');
+        $data['company'] = $record->getField('Company_xt');
 
-        $relatedPhoneRecords = $rec->getRelatedSet('contacts_PHONENUMBERS');
+        $relatedPhoneRecords = $record->getRelatedSet('contacts_PHONENUMBERS');
         if(is_array($relatedPhoneRecords))
         {
             foreach($relatedPhoneRecords as $phoneDetails)
             {
-                $data['phone'][strtolower($phoneDetails->getField('contacts_PHONENUMBERS::Type_xt'))] = $phoneDetails->getField('contacts_PHONENUMBERS::Number_xn');
+                $data['phone'][$phoneDetails->getField('contacts_PHONENUMBERS::Type_xt')] = $phoneDetails->getField('contacts_PHONENUMBERS::Number_xn');
             }
         }
         
-        $relatedEmailRecords = $rec->getRelatedSet('contacts_EMAIL');
+        $relatedEmailRecords = $record->getRelatedSet('contacts_EMAIL');
         if(is_array($relatedEmailRecords))
         {
             foreach($relatedEmailRecords as $emialDetails)
             {
-                $data['email'][strtolower($emialDetails->getField('contacts_EMAIL::Type_xt'))] = $emialDetails->getField('contacts_EMAIL::Email_xt');
+                $data['email'][$emialDetails->getField('contacts_EMAIL::Type_xt')] = $emialDetails->getField('contacts_EMAIL::Email_xt');
             }
         }
         return $data;
         
     }
 
-    function add_data($fm , $postArr)
+    function addEmployee($fm , $postArr)
     {   
         if(count($postArr) == 9)
         {
-            $rec = $fm->newAddCommand('Contact Details',array(
-                'Title_xt' => ucfirst($postArr['title']),
-                'FirstName_xt' => ucfirst($postArr['firstname']),
-                'LastName_xt' => ucfirst($postArr['lastname']),
-                'Company_xt' => ucfirst($postArr['company']),
-                'JobTitle_xt' => ucfirst($postArr['jobtitle'])
+            $record = $fm->newAddCommand('Contact Details',array(
+                'Title_xt' => $postArr['title'],
+                'FirstName_xt' => $postArr['firstname'],
+                'LastName_xt' => $postArr['lastname'],
+                'Company_xt' => $postArr['company'],
+                'JobTitle_xt' => $postArr['jobtitle']
             ));
             
-            $result = $rec->execute(); 
+            $result = $record->execute(); 
             if(FileMaker::isError($result))
             {
                 return $this->error;
             }
             $currentRecord = $result->getFirstRecord();
             $addPhone = $currentRecord->newRelatedRecord('contacts_PHONENUMBERS');
-            $addPhone->setField('contacts_PHONENUMBERS::Type_xt',ucfirst($postArr['mobiletype']));
+            $addPhone->setField('contacts_PHONENUMBERS::Type_xt',$postArr['mobiletype']);
             $addPhone->setField('contacts_PHONENUMBERS::Number_xn',$postArr['number']);
             $addPhone->commit();
             $addEmail = $currentRecord->newRelatedRecord('contacts_EMAIL');
-            $addEmail->setField('contacts_EMAIL::Type_xt', ucfirst($postArr['emailtype']));
-            $addEmail->setField('contacts_EMAIL::Email_xt', strtolower($postArr['email']));
+            $addEmail->setField('contacts_EMAIL::Type_xt', $postArr['emailtype']);
+            $addEmail->setField('contacts_EMAIL::Email_xt', $postArr['email']);
             $addEmail->commit();
             return $this->data_inserted;
         }
     }
 
-    function del_data($fm, $args)
+    function delEmployee($fm, $args)
     {
-        $rec = $fm->getRecordById('Contact Details',$args['id']);
-        if(FileMaker::isError($rec))
+        $record = $fm->getRecordById('Contact Details',$args['id']);
+        if(FileMaker::isError($record))
         {
-            if($rec->getCode() == 101)
+            if($record->getCode() == 101)
             {
                 return $this->data_not_found;
             }
         }
-        $relatedPhoneSet = $rec->getRelatedSet('contacts_PHONENUMBERS');
+        $relatedPhoneSet = $record->getRelatedSet('contacts_PHONENUMBERS');
         foreach($relatedPhoneSet as $phone)
         {
             $phone->delete();
         }
-        $relatedEmailSet = $rec->getRelatedSet('contacts_EMAIL');
+        $relatedEmailSet = $record->getRelatedSet('contacts_EMAIL');
         foreach($relatedEmailSet as $email)
         {
             $email->delete();
@@ -176,38 +181,38 @@ class dbConnection extends FileMaker {
         
     }
 
-    function update_data($fm, $args, $putArr)
+    function updateEmployee($fm, $args, $putArr)
     {
         if(count($putArr)==9)
         {
-            $rec = $fm->getRecordById('Contact Details', $args['id']);
-            if(FileMaker::isError($rec))
+            $record = $fm->getRecordById('Contact Details', $args['id']);
+            if(FileMaker::isError($record))
             {
-                if($rec->getCode() == 101)
+                if($record->getCode() == 101)
                 {
                     return $this->data_not_found;
                 }
             }
-            $relatedPhoneSet = $rec->getRelatedSet('contacts_PHONENUMBERS');
+            $relatedPhoneSet = $record->getRelatedSet('contacts_PHONENUMBERS');
             foreach($relatedPhoneSet as $phone)
             {
-                $phone->setField('contacts_PHONENUMBERS::Type_xt',ucfirst($putArr['mobiletype']));
+                $phone->setField('contacts_PHONENUMBERS::Type_xt',$putArr['mobiletype']);
                 $phone->setField('contacts_PHONENUMBERS::Number_xn',$putArr['number']);
                 $phone->commit();
             }
-            $relatedEmailSet = $rec->getRelatedSet('contacts_EMAIL');
+            $relatedEmailSet = $record->getRelatedSet('contacts_EMAIL');
             foreach($relatedEmailSet as $email)
             {
-                $email->setField('contacts_EMAIL::Type_xt',ucfirst($putArr['emailtype']));
-                $email->setField('contacts_EMAIL::Email_xt',strtolower($putArr['email']));
+                $email->setField('contacts_EMAIL::Type_xt',$putArr['emailtype']);
+                $email->setField('contacts_EMAIL::Email_xt',$putArr['email']);
                 $email->commit(); 
             }
-            $rec->setField('Title_xt',ucfirst($putArr['title']));
-            $rec->setField('FirstName_xt',ucfirst($putArr['firstname']));
-            $rec->setField('LastName_xt',ucfirst($putArr['lastname']));
-            $rec->setField('JobTitle_xt',ucfirst($putArr['jobtitle']));
-            $rec->setField('Company_xt',ucfirst($putArr['company']));
-            $result=$rec->commit();
+            $record->setField('Title_xt',$putArr['title']);
+            $record->setField('FirstName_xt',$putArr['firstname']);
+            $record->setField('LastName_xt',$putArr['lastname']);
+            $record->setField('JobTitle_xt',$putArr['jobtitle']);
+            $record->setField('Company_xt',$putArr['company']);
+            $result=$record->commit();
             if(FileMaker::isError($result))
             {
                 return $this->error;
