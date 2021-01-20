@@ -17,12 +17,13 @@ use Slim\App;
  *
 */
 
-return function(App $app){
+return function(App $app)
+{
     $controller = 'App\controller\EmployeeController';
     $app->get('/employees', $controller . ':getEmpDetails');
     $app->get('/employees/{id}', $controller . ':getEmpDetail');
     $app->post('/employees', $controller . ':addEmpDetail');
-    $app->delete('/emmployees/{id}', $controller . ':deleteEmpDetail');
+    $app->delete('/employees/{id}', $controller . ':deleteEmpDetail');
     $app->put('/employees/{id}', $controller . ':updateEmpDetail');
     
 };

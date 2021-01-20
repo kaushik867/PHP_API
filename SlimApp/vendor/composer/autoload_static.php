@@ -58,6 +58,7 @@ class ComposerStaticInite6c1566413b75491e2850189edbc7d44
         'D' => 
         array (
             'Dotenv\\' => 7,
+            'Db\\' => 3,
             'DI\\' => 3,
         ),
         'A' => 
@@ -141,6 +142,10 @@ class ComposerStaticInite6c1566413b75491e2850189edbc7d44
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
+        'Db\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/common',
+        ),
         'DI\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-di/php-di/src',
@@ -217,6 +222,7 @@ class ComposerStaticInite6c1566413b75491e2850189edbc7d44
         'DI\\Invoker\\FactoryParameterResolver' => __DIR__ . '/..' . '/php-di/php-di/src/Invoker/FactoryParameterResolver.php',
         'DI\\NotFoundException' => __DIR__ . '/..' . '/php-di/php-di/src/NotFoundException.php',
         'DI\\Proxy\\ProxyFactory' => __DIR__ . '/..' . '/php-di/php-di/src/Proxy/ProxyFactory.php',
+        'Db\\FmCrud' => __DIR__ . '/../..' . '/common/FmCrud.php',
         'Dotenv\\Dotenv' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Dotenv.php',
         'Dotenv\\Exception\\ExceptionInterface' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Exception/ExceptionInterface.php',
         'Dotenv\\Exception\\InvalidEncodingException' => __DIR__ . '/..' . '/vlucas/phpdotenv/src/Exception/InvalidEncodingException.php',

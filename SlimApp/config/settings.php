@@ -18,9 +18,10 @@ use Monolog\Logger;
  *
 */
 
-return function(Container $container){
-    $container->set('settings',function(){
-
+return function(Container $container)
+{
+    $container->set('settings',function()
+    {
         return [
             'displayErrorsDetails'=>true,
             'logErrorsDetails'=>true,

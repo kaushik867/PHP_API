@@ -5,6 +5,7 @@
  * @uses : send error as array
  * 
  */
+
 namespace App\middleware;
 
 use Slim\Psr7\Response;
@@ -26,11 +27,13 @@ class HttpExceptionMiddleware
 
     public function __invoke(ServerRequestInterface $request,RequestHandlerInterface $handler) :Response
     {
-        try {
+        try 
+        {
             $response = $handler->handle($request);
             return $response;
-        } catch (HttpException $httpException) {
-            
+        } 
+        catch (HttpException $httpException) 
+        {    
             $statusCode = $httpException->getCode();
             $response = new Response();
             $errorMessage = array(
@@ -40,7 +43,8 @@ class HttpExceptionMiddleware
                 'status_code'=>$httpException->getCode(),
                 
             );
-            if($request->getMethod()=='OPTIONS'){
+            if($request->getMethod()=='OPTIONS')
+            {
                 return $response;
             }
             $response->getBody()->write(json_encode($errorMessage));

@@ -19,7 +19,8 @@ use App\middleware\SendsResponse;
  *
 */
 
-return function(App $app){
+return function(App $app)
+{
     $settings=$app->getContainer()->get('settings');
     $app->addErrorMiddleware($settings['displayErrorsDetails'],$settings['logErrorsDetails'],$settings['logErrors']);
     $app->addBodyParsingMiddleware();

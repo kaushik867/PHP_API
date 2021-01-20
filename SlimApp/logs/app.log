@@ -1,1 +1,15 @@
 [2021-01-19T14:52:29.357598+01:00] Slim-app.DEBUG: Error {"code":"101","message":"Record is missing","file":"D:\\Git\\PHP_API\\SlimApp\\src\\database\\DbConnection.php","line":84} {"uid":"99ab9f7"}
+[2021-01-20T13:22:54.209861+01:00] Slim-app.DEBUG: Error {"code":"105","message":"Layout is missing","file":"D:\\Git\\PHP_API\\SlimApp\\src\\controller\\EmployeeController.php","line":48} {"uid":"7fdb29b"}
+[2021-01-20T13:38:55.670274+01:00] Slim-app.DEBUG: Error {"code":"105","message":"Layout is missing","file":"D:\\Git\\PHP_API\\SlimApp\\common\\FmCrud.php","line":63} {"uid":"799d409"}
+[2021-01-20T13:41:04.301743+01:00] Slim-app.DEBUG: Error {"code":"101","message":"Record is missing","file":"D:\\Git\\PHP_API\\SlimApp\\common\\FmCrud.php","line":63} {"uid":"06b50b1"}
+[2021-01-20T13:42:26.218686+01:00] Slim-app.DEBUG: Error {"code":"101","message":"Record is missing","file":"D:\\Git\\PHP_API\\SlimApp\\common\\FmCrud.php","line":63} {"uid":"572c75b"}
+[2021-01-20T13:42:47.521015+01:00] Slim-app.DEBUG: Error {"code":"105","message":"Layout is missing","file":"D:\\Git\\PHP_API\\SlimApp\\common\\FmCrud.php","line":63} {"uid":"070e7b2"}
+[2021-01-20T14:04:51.167181+01:00] Slim-app.DEBUG: Error {"code":28,"message":"Communication Error: (28) Failed to connect to 192.168.10.62 port 80: Timed out","file":"D:\\Git\\PHP_API\\SlimApp\\vendor\\slim\\slim\\Slim\\Handlers\\Strategies\\RequestResponse.php","line":43} {"uid":"ead052b"}
+[2021-01-20T14:04:51.716079+01:00] Slim-app.DEBUG: Error {"code":"105","message":"Layout is missing","file":"D:\\Git\\PHP_API\\SlimApp\\src\\controller\\EmployeeController.php","line":48} {"uid":"847c5d5"}
+[2021-01-20T14:04:55.014860+01:00] Slim-app.DEBUG: Error {"code":"105","message":"Layout is missing","file":"D:\\Git\\PHP_API\\SlimApp\\src\\controller\\EmployeeController.php","line":48} {"uid":"2022bd2"}
+[2021-01-20T14:05:04.399484+01:00] Slim-app.DEBUG: Error {"code":"105","message":"Layout is missing","file":"D:\\Git\\PHP_API\\SlimApp\\src\\controller\\EmployeeController.php","line":48} {"uid":"94058dc"}
+[2021-01-20T15:09:02.627727+01:00] Slim-app.DEBUG: Error {"code":"105","message":"Layout is missing","file":"D:\\Git\\PHP_API\\SlimApp\\src\\controller\\EmployeeController.php","line":94} {"uid":"e0ddaf1"}
+[2021-01-20T15:16:07.248637+01:00] Slim-app.DEBUG: Error {"code":"101","message":"Record is missing","file":"D:\\Git\\PHP_API\\SlimApp\\common\\FmCrud.php","line":129} {"uid":"fb9ce83"}
+[2021-01-20T15:29:24.751456+01:00] Slim-app.DEBUG: Error {"code":"101","message":"Record is missing","file":"D:\\Git\\PHP_API\\SlimApp\\common\\FmCrud.php","line":63} {"uid":"6e6a73d"}
+[2021-01-20T15:30:03.103915+01:00] Slim-app.DEBUG: Error {"code":"101","message":"Record is missing","file":"D:\\Git\\PHP_API\\SlimApp\\common\\FmCrud.php","line":129} {"uid":"3b8df59"}
+[2021-01-20T16:24:13.959921+01:00] Slim-app.DEBUG: Error {"time":"01/20/2021 04:24:13 pm"} {"uid":"74d7724"}

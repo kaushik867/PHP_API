@@ -34,7 +34,8 @@ class ErrorLog{
  * 
  */
 
-    public function __construct($error){
+    public function __construct($error)
+    {
         $this->log = new Logger('Slim-app');
         $processor = new UidProcessor();
         $this->log->pushProcessor($processor);
