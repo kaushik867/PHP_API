@@ -6,8 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'App\\controller\\RouteController' => $baseDir . '/src/controller/RouteController.php',
+    'App\\controller\\EmployeeController' => $baseDir . '/src/controller/EmployeeController.php',
     'App\\database\\DbConnection' => $baseDir . '/src/database/DbConnection.php',
+    'App\\logs\\ErrorLog' => $baseDir . '/src/logs/ErrorLog.php',
     'App\\middleware\\HttpExceptionMiddleware' => $baseDir . '/src/middleware/HttpExceptionMiddleware.php',
     'App\\middleware\\SendsResponse' => $baseDir . '/src/middleware/SendsResponse.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',

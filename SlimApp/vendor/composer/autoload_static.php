@@ -152,8 +152,9 @@ class ComposerStaticInite6c1566413b75491e2850189edbc7d44
     );
 
     public static $classMap = array (
-        'App\\controller\\RouteController' => __DIR__ . '/../..' . '/src/controller/RouteController.php',
+        'App\\controller\\EmployeeController' => __DIR__ . '/../..' . '/src/controller/EmployeeController.php',
         'App\\database\\DbConnection' => __DIR__ . '/../..' . '/src/database/DbConnection.php',
+        'App\\logs\\ErrorLog' => __DIR__ . '/../..' . '/src/logs/ErrorLog.php',
         'App\\middleware\\HttpExceptionMiddleware' => __DIR__ . '/../..' . '/src/middleware/HttpExceptionMiddleware.php',
         'App\\middleware\\SendsResponse' => __DIR__ . '/../..' . '/src/middleware/SendsResponse.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',

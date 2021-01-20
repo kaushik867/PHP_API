@@ -29,7 +29,7 @@ use App\database\DbConnection;
  * 
 */
 
-class RouteController extends DbConnection{
+class EmployeeController extends DbConnection{
 
 /**
  * creating an instance of FileMaker and get all Details of Employee

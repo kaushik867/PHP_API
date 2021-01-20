@@ -18,7 +18,7 @@ use Slim\App;
 */
 
 return function(App $app){
-    $controller = 'App\controller\RouteController';
+    $controller = 'App\controller\EmployeeController';
     $app->get('/employees', $controller . ':getEmpDetails');
     $app->get('/employees/{id}', $controller . ':getEmpDetail');
     $app->post('/employees', $controller . ':addEmpDetail');
