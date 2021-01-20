@@ -1,14 +1,39 @@
 <?php
 
+/**
+ * @file : ErrorLog.php
+ * @author : kaushik 
+ * @uses : log error in .log file
+ * 
+ */
+
 namespace App\logs;
 
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Processor\UidProcessor;
 
+/**
+ * creating new record in FM database
+ *
+ * @package App\log\ErrorLog
+ * @property Logger $log 
+ * 
+ */
+
 class ErrorLog{
 
-    public $log;
+    private $log = null;
+
+/**
+ * creating new object of ErrorLog class
+ *
+ * @param  FileMaker $fm object
+ * @param  FileMaker_Error_Object $error
+ * 
+ * 
+ */
+
     public function __construct($error){
         $this->log = new Logger('Slim-app');
         $processor = new UidProcessor();

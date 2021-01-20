@@ -1,12 +1,28 @@
 <?php
 
+/**
+ * @file : router.php  
+ * @author : kaushik
+ * @uses : route to specific controllers
+ * 
+ */
+
 use Slim\App;
 
+/**
+ * @param Slim\APP $app
+ * 
+ * 
+ * on url call specific controller class
+ *
+*/
+
 return function(App $app){
-    $app->get('/employees', '\App\controller\RouteController:getEmpDetails');
-    $app->get('/employees/{id}', '\App\controller\RouteController:getEmpDetail');
-    $app->post('/employees', '\App\controller\RouteController:addEmpDetail');
-    $app->delete('/emmployees/{id}', '\App\controller\RouteController:deleteEmpDetail');
-    $app->put('/employees/{id}', '\App\controller\RouteController:updateEmpDetail');
+    $controller = 'App\controller\RouteController';
+    $app->get('/employees', $controller . ':getEmpDetails');
+    $app->get('/employees/{id}', $controller . ':getEmpDetail');
+    $app->post('/employees', $controller . ':addEmpDetail');
+    $app->delete('/emmployees/{id}', $controller . ':deleteEmpDetail');
+    $app->put('/employees/{id}', $controller . ':updateEmpDetail');
     
 };

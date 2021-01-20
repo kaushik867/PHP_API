@@ -1,24 +1,48 @@
 <?php
+/**
+ * @file : DbConnection.php
+ * @author : kaushik gupta
+ * @uses : estabished FM Server Connction, using FM API for PHP call the properties and methods of FM class
+ *         and retrives and sends the data in Fm Server   
+ *
+ */
 namespace App\database;
 
 use FileMaker;
 use App\logs\ErrorLog;
 
+/**
+ * creating an instance of FileMaker, uses the properties and methods form FM API for PHP
+ * 
+ * @package App\database\DbConnection
+ * @property array $dataInserted 
+ * @property array $dataUpdated 
+ * @property array $dataNotFound 
+ * @property array $error 
+ * 
+ * @method getEmployee      @return $response PSR-7 response
+ * @method getEmployeeById  @return $response PSR-7 response
+ * @method addEmployee      @return $response PSR-7 response
+ * @method delEmployee      @return $response PSR-7 response
+ * @method updateEmployee   @return $response PSR-7 response
+ * 
+ */
+
 class DbConnection extends FileMaker {
 
-    private $data_inserted = array(
+    private $dataInserted = array(
         'success' => true,
         'message' => 'data inserted successfully',
         'status'=>201
     );
 
-    private $data_updated = array(
+    private $dataUpdated = array(
         'success'=>true,
         'message'=>'data updated successfully',
         'status'=>200
     );
 
-    private $data_not_found = array(
+    private $dataNotFound = array(
         'sucess' => false,
         'message' => 'record not found',
         'status' => 404
@@ -31,11 +55,31 @@ class DbConnection extends FileMaker {
         'status'=>500
     );
 
+/**
+ * create DbConnection object constructor
+ *
+ * @param string database name
+ * @param string host ip Address
+ * @param string username
+ * @param string password
+ *
+ * @return FileMaker Object
+ */
+
     function __construct()
     {
        return parent::FileMaker($_ENV['DATABASE'], $_ENV['HOST'], $_ENV['USER'], $_ENV['PASSWORD']); 
     }
     
+/**
+ * finding all records from Contact Details layout
+ *
+ * @param  FileMaker $fm object
+ * 
+ *
+ * @return array $data
+ */
+
     function getEmployee($fm)
     {
         $find = $fm->newFindCommand('Contact Details');
@@ -80,6 +124,15 @@ class DbConnection extends FileMaker {
        return $data;
     }
 
+/**
+ * finding specific record by id
+ *
+ * @param  FileMaker $fm object
+ * @param  array $args id of the record
+ *
+ * @return array $data
+ */
+
     function getEmployeeById( $fm ,$args )
     {
         $record = $fm->getRecordById('Contact Details',$args['id']);
@@ -88,7 +141,7 @@ class DbConnection extends FileMaker {
             if($record->getCode() == 101)
             {
                 new ErrorLog($record);
-                return $this->data_not_found;
+                return $this->dataNotFound;
             }
         }
 
@@ -121,6 +174,17 @@ class DbConnection extends FileMaker {
         
     }
 
+/**
+ * creating new record in FM database
+ *
+ * @param  FileMaker $fm object
+ * @param  array $postArr 
+ *         array of details
+ * 
+ * @return array $dataInserted
+ * 
+ */
+
     function addEmployee($fm , $postArr)
     {   
         if(count($postArr) == 9)
@@ -147,9 +211,19 @@ class DbConnection extends FileMaker {
             $addEmail->setField('contacts_EMAIL::Type_xt', $postArr['emailtype']);
             $addEmail->setField('contacts_EMAIL::Email_xt', $postArr['email']);
             $addEmail->commit();
-            return $this->data_inserted;
+            return $this->dataInserted;
         }
     }
+
+/**
+ * deleting a record in FM database by id
+ *
+ * @param  FileMaker $fm object
+ * @param  array $args 
+ * 
+ * @return array with status code
+ * 
+ */
 
     function delEmployee($fm, $args)
     {
@@ -158,7 +232,7 @@ class DbConnection extends FileMaker {
         {
             if($record->getCode() == 101)
             {
-                return $this->data_not_found;
+                return $this->dataNotFound;
             }
         }
         $relatedPhoneSet = $record->getRelatedSet('contacts_PHONENUMBERS');
@@ -181,6 +255,16 @@ class DbConnection extends FileMaker {
         
     }
 
+/**
+ * update record in FM database using id
+ *
+ * @param  FileMaker $fm object
+ * @param  array $args 
+ * 
+ * @return array $dataUpdated
+ * 
+ */
+
     function updateEmployee($fm, $args, $putArr)
     {
         if(count($putArr)==9)
@@ -190,7 +274,7 @@ class DbConnection extends FileMaker {
             {
                 if($record->getCode() == 101)
                 {
-                    return $this->data_not_found;
+                    return $this->dataNotFound;
                 }
             }
             $relatedPhoneSet = $record->getRelatedSet('contacts_PHONENUMBERS');
@@ -217,7 +301,7 @@ class DbConnection extends FileMaker {
             {
                 return $this->error;
             }
-            return $this->data_updated;
+            return $this->dataUpdated;
             
         }
     }

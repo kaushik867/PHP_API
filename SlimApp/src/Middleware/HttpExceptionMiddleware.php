@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * @file : HttpExceptionMiddleware.php  
+ * @author : kaushik
+ * @uses : send error as array
+ * 
+ */
 namespace App\middleware;
 
 use Slim\Psr7\Response;
@@ -9,6 +14,16 @@ use Slim\Exception\HttpException;
 
 class HttpExceptionMiddleware 
 {
+
+/**
+* middleware invokable class
+*
+* @param  ServerRequest  $request PSR-7 request
+* @param  RequestHandler $handler PSR-15 request handler
+*
+* @return Response
+*/
+
     public function __invoke(ServerRequestInterface $request,RequestHandlerInterface $handler) :Response
     {
         try {
