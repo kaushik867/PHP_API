@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\controller\\EmployeeController' => $baseDir . '/src/controller/EmployeeController.php',
-    'App\\database\\DbConnection' => $baseDir . '/src/database/DbConnection.php',
+    'App\\dbHandler\\DbResponse' => $baseDir . '/src/dbHandler/DbResponse.php',
     'App\\logs\\ErrorLog' => $baseDir . '/src/logs/ErrorLog.php',
     'App\\middleware\\HttpExceptionMiddleware' => $baseDir . '/src/middleware/HttpExceptionMiddleware.php',
     'App\\middleware\\SendsResponse' => $baseDir . '/src/middleware/SendsResponse.php',

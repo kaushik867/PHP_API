@@ -11,22 +11,45 @@ use FileMaker;
 
 class FmCrud extends FileMaker{
 
+/**
+ * create FileMaker object
+ *
+ * @param string database name
+ * @param string host ip Address
+ * @param string username
+ * @param string password
+ *
+ * @return FileMaker Object
+ */
     static private function connect(){
         return new FileMaker($_ENV['DATABASE'], $_ENV['HOST'], $_ENV['USER'], $_ENV['PASSWORD']);
     }
 
+/**
+ * call FM object and retrive all data from layout
+ *
+ * @param string $layout
+ 
+ *
+ * @return array $data all records in key and value pair
+ */
+
     static function getEmployeeDetails($layout){
-    $fm = self::connect();
-    $find = $fm->newFindCommand($layout);
+        $fm = self::connect();
+        $find = $fm->newFindCommand($layout);
         $result = $find->execute();
+
         if(FileMaker::isError($result))
         {
             return $result;
         }
+
         $records = $result->getRecords();
         $data = array(array());
         $index=0;
-        foreach($records as $record){
+
+        foreach($records as $record)
+        {
             $data[$index]['id'] = $record->getRecordId();
             $data[$index]['title'] = $record->getField('Title_xt');
             $data[$index]['firstname'] = $record->getField('FirstName_xt');
@@ -56,6 +79,15 @@ class FmCrud extends FileMaker{
        return $data;
         
     }
+
+/**
+ * call FM object Find specific record by id
+ *
+ * @param string $layout
+ * @param integer $id
+ *
+ * @return array $data details of specific Employee
+ */
 
     static function getEmployeeDetail($layout, $id)
     {
@@ -94,6 +126,16 @@ class FmCrud extends FileMaker{
         return $data;
     }
 
+/**
+ * call FM object, create new record and set data
+ *
+ * @param string $layout
+ * @param array $data
+ 
+ *
+ * @return boolean true 
+ */
+
     static function addEmployeeDetails($layout, $data)
     {
         $fm = self::connect();
@@ -120,19 +162,29 @@ class FmCrud extends FileMaker{
             $addEmail->setField('contacts_EMAIL::Type_xt', $data['emailtype']);
             $addEmail->setField('contacts_EMAIL::Email_xt', $data['email']);
             $addEmail->commit();
+            return true;
             
         }
 
-        static function deleteEmployeeDetails($layout, $args)
+/**
+ * call FM object and delete specific record
+ *
+ * @param string $layour
+ * @param interger $id
+ *
+ * @return void
+ */
+
+        static function deleteEmployeeDetails($layout, $id)
         {
             $fm = self::connect();
-            $record = $fm->getRecordById($layout,$args);
+            $record = $fm->getRecordById($layout,$id);
             if(FileMaker::isError($record))
             {
                 return $record;
             }
 
-            $delete = $fm->newDeleteCommand($layout , $args);
+            $delete = $fm->newDeleteCommand($layout , $id);
             $result = $delete->execute();
             if(FileMaker::isError($result))
             {
@@ -149,7 +201,7 @@ class FmCrud extends FileMaker{
             }
 
             $relatedEmailSet = $record->getRelatedSet('contacts_EMAIL');
-            if(is_array($relatedPhoneSet))
+            if(is_array($relatedEmailSet))
             {
                 foreach($relatedEmailSet as $email)
                 {
@@ -159,35 +211,42 @@ class FmCrud extends FileMaker{
             
         }
 
-        static function updateEmployeeDetails($data, $args)
+/**
+ * call FM object and update speficif record by id
+ *
+ * @param string $layout
+ * @param array $data
+ * @param integer $id
+ * 
+ * @return void
+ */
+
+        static function updateEmployeeDetails($layout, $data, $id)
         {
             $fm = self::connect();
             
-            $record = $fm->getRecordById('Contact Details', $args['id']);
+            $record = $fm->getRecordById($layout, $id);
             if(FileMaker::isError($record))
             {
                 return $record;
             }
+            
             $relatedPhoneSet = $record->getRelatedSet('contacts_PHONENUMBERS');
-            foreach($relatedPhoneSet as $phone)
-            {
-                $phone->setField('contacts_PHONENUMBERS::Type_xt',$data['mobiletype']);
-                $phone->setField('contacts_PHONENUMBERS::Number_xn',$data['number']);
-                $phone->commit();
-            }
+            $phone = (array_key_exists('mobiletype',$data)) ? $relatedPhoneSet[0]->setField('contacts_PHONENUMBERS::Type_xt',$data['mobiletype']):false;
+            $phone = (array_key_exists('number',$data)) ? $relatedPhoneSet[0]->setField('contacts_PHONENUMBERS::Number_xn',$data['number']): false;
+            ($phone) ? $relatedPhoneSet[0]->commit(): '';
+            
             $relatedEmailSet = $record->getRelatedSet('contacts_EMAIL');
-            foreach($relatedEmailSet as $email)
-            {
-                $email->setField('contacts_EMAIL::Type_xt',$data['emailtype']);
-                $email->setField('contacts_EMAIL::Email_xt',$data['email']);
-                $email->commit(); 
-            }
-            $record->setField('Title_xt',$data['title']);
-            $record->setField('FirstName_xt',$data['firstname']);
-            $record->setField('LastName_xt',$data['lastname']);
-            $record->setField('JobTitle_xt',$data['jobtitle']);
-            $record->setField('Company_xt',$data['company']);
-            $result=$record->commit();
+            $email = (array_key_exists('emailtype',$data)) ? $relatedEmailSet[0]->setField('contacts_EMAIL::Type_xt',$data['emailtype']): false;
+            $email = (array_key_exists('email',$data)) ? $relatedEmailSet[0]->setField('contacts_EMAIL::Email_xt',$data['email']): false;
+            ($email) ? $relatedEmailSet[0]->commit(): ''; 
+            
+            $update = (array_key_exists('title',$data)) ? $record->setField('Title_xt',$data['title']): false;
+            $update = (array_key_exists('firstname',$data)) ? $record->setField('FirstName_xt',$data['firstname']): false;
+            $update = (array_key_exists('lastname',$data)) ? $record->setField('LastName_xt',$data['lastname']): false;
+            $update = (array_key_exists('jobtitle',$data)) ? $record->setField('JobTitle_xt',$data['jobtitle']): false;
+            $update = (array_key_exists('company',$data)) ? $record->setField('Company_xt',$data['company']) : false;
+            ($update) ? $record->commit(): '';
         }
     
  }

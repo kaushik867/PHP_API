@@ -12,9 +12,8 @@ namespace App\controller;
 
 use Psr\http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use App\database\DbConnection;
-use Db\FmCrud as fm;
-use FileMaker_Error;
+use App\dbHandler\DbResponse;
+
 
 /**
  * controller class extend DbConnection call as a controller class
@@ -31,7 +30,7 @@ use FileMaker_Error;
  * 
 */
 
-class EmployeeController extends DbConnection{
+class EmployeeController extends DbResponse{
 
 /**
  * creating an instance of FileMaker and get all Details of Employee
@@ -44,7 +43,7 @@ class EmployeeController extends DbConnection{
     
     public function getEmpDetails(ServerRequestInterface $request, ResponseInterface $response )
     {
-        $connection = new DbConnection();
+        $connection = new DbResponse();
         $result = $connection->getEmployee();
         $response->getBody()->write(json_encode($result));
         if(array_key_exists('status', $result))
@@ -67,7 +66,7 @@ class EmployeeController extends DbConnection{
 
     public function getEmpDetail(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        $connection = new DbConnection();
+        $connection = new DbResponse();
         $result = $connection->getEmployeeById($args);
         $response->getBody()->write(json_encode($result));
         if(array_key_exists('status', $result))
@@ -89,7 +88,7 @@ class EmployeeController extends DbConnection{
 
     public function addEmpDetail(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $connection = new DbConnection();
+        $connection = new DbResponse();
         $postArr = $request->getParsedBody();
         $result = $connection->addEmployee($postArr);
         $response->getBody()->write(json_encode($result));
@@ -109,7 +108,7 @@ class EmployeeController extends DbConnection{
 
     public function deleteEmpDetail(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        $connection = new DbConnection();
+        $connection = new DbResponse();
         $result = $connection->delEmployee($args);
         $response->getBody()->write(json_encode($result));
         return $response->withStatus($result['status']);
@@ -128,9 +127,9 @@ class EmployeeController extends DbConnection{
 
     public function updateEmpDetail(ServerRequestInterface $request, ResponseInterface $response, $args)
     {
-        $connection = new DbConnection();
+        $connection = new DbResponse();
         $putArr = $request->getParsedBody();
-        $result = $connection->updateEmployee($connection,$args,$putArr);
+        $result = $connection->updateEmployee($args,$putArr);
         $response->getBody()->write(json_encode($result));
         return $response->withStatus($result['status']);
     }

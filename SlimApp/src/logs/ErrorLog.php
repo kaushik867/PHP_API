@@ -36,6 +36,8 @@ class ErrorLog{
 
     public function __construct($error)
     {
+        date_default_timezone_set("Asia/kolkata");   //India time (GMT+5:30)
+
         $this->log = new Logger('Slim-app');
         $processor = new UidProcessor();
         $this->log->pushProcessor($processor);
