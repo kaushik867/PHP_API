@@ -19,11 +19,13 @@ use Slim\App;
 
 return function(App $app)
 {
+    
     $controller = 'App\controller\EmployeeController';
-    $app->get('/employees', $controller . ':getEmpDetails');
-    $app->get('/employees/{id}', $controller . ':getEmpDetail');
-    $app->post('/employees', $controller . ':addEmpDetail');
-    $app->delete('/employees/{id}', $controller . ':deleteEmpDetail');
-    $app->put('/employees/{id}', $controller . ':updateEmpDetail');
+    $app->post('/getToken', $controller . ':authenticate');
+    $app->get('/api/employees', $controller . ':getEmpDetails');
+    $app->get('/api/employees/{id}', $controller . ':getEmpDetail');
+    $app->post('/api/employees', $controller . ':addEmpDetail');
+    $app->delete('/api/employees/{id}', $controller . ':deleteEmpDetail');
+    $app->put('/api/employees/{id}', $controller . ':updateEmpDetail');
     
 };

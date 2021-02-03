@@ -25,7 +25,18 @@ return function(App $app)
     $app->addErrorMiddleware($settings['displayErrorsDetails'],$settings['logErrorsDetails'],$settings['logErrors']);
     $app->addBodyParsingMiddleware();
     $app->addRoutingMiddleware();
-    $app->setBasePath("/api");
+    // $app->setBasePath("/api");
     $app->add(new HttpExceptionMiddleware());
     $app->add(new SendsResponse());
+    $app->add(new Tuupola\Middleware\JwtAuthentication([
+        "path" =>"/api",
+        "attribute"=>"jwt",
+        "secret" => $settings['JWT_SECRET'],
+        "algorithm" => ["HS256"],
+        "error" => function ($response) {
+            $data["status"] = "error";
+            $data["message"] = "invalid token";
+            return $response->getbody()->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+        }
+    ]));
 };

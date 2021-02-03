@@ -26,6 +26,7 @@ return function(Container $container)
             'displayErrorsDetails'=>true,
             'logErrorsDetails'=>true,
             'logErrors'=>true,
+            'JWT_SECRET'=> 'thisismyfirstphpframeworkusingphp'
         ];
     });
 };

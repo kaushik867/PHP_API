@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '405fe80b231d8086fc355eef03613868ce9f4a77',
+    'reference' => 'd6ec2695b08df9fa476169f9ef93e60ae79ce1c3',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '405fe80b231d8086fc355eef03613868ce9f4a77',
+      'reference' => 'd6ec2695b08df9fa476169f9ef93e60ae79ce1c3',
     ),
     'fig/http-message-util' => 
     array (
@@ -28,6 +28,15 @@
       array (
       ),
       'reference' => '9d94dc0154230ac39e5bf89398b324a86f63f765',
+    ),
+    'firebase/php-jwt' => 
+    array (
+      'pretty_version' => 'v5.2.0',
+      'version' => '5.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'feb0e820b8436873675fd3aca04f3728eb2185cb',
     ),
     'graham-campbell/result-type' => 
     array (
@@ -131,6 +140,7 @@
       'provided' => 
       array (
         0 => '1.0',
+        1 => '^1.0',
       ),
     ),
     'psr/http-message' => 
@@ -236,6 +246,33 @@
       array (
       ),
       'reference' => 'e70aa8b064c5b72d3df2abd5ab1e90464ad009de',
+    ),
+    'tuupola/callable-handler' => 
+    array (
+      'pretty_version' => '1.1.0',
+      'version' => '1.1.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '0bc7b88630ca753de9aba8f411046856f5ca6f8c',
+    ),
+    'tuupola/http-factory' => 
+    array (
+      'pretty_version' => '1.3.0',
+      'version' => '1.3.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'aa48841a9f572b9cebe9d3ac5d5d3362a83f57ac',
+    ),
+    'tuupola/slim-jwt-auth' => 
+    array (
+      'pretty_version' => '3.5.1',
+      'version' => '3.5.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '1c3668deebbcbdc49c9abe6cce4f6e0c8c5e09b5',
     ),
     'vlucas/phpdotenv' => 
     array (

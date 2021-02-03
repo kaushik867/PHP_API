@@ -10,9 +10,11 @@
 
 namespace App\controller;
 
+use Slim\App;
 use Psr\http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\dbHandler\DbResponse;
+use Firebase\JWT\JWT;
 
 
 /**
@@ -133,4 +135,41 @@ class EmployeeController extends DbResponse{
         $response->getBody()->write(json_encode($result));
         return $response->withStatus($result['status']);
     }
+
+/**
+ * Taking user credential and validate
+ * 
+ * @param  ServerRequest  $request PSR-7 request
+ * @param  RequestHandler $handler PSR-7 response
+ * @param  array $args
+ *
+ * @return Response
+ */
+
+    public function authenticate(ServerRequestInterface $request, ResponseInterface $response, $args)
+    {
+        $credentials = $request->getParsedBody();
+        $user = $credentials['user'] ?? null;
+        $password = $credentials['password'] ?? null;
+
+        
+        if($user == $_ENV['USERNAME'] && password_verify($password, $_ENV['USERPASSWORD'])){
+            $token = JWT::encode(['user'=> $_ENV['USERNAME'], 'password'=> $_ENV['USERPASSWORD']],$_ENV['JWT_SECRET'],"HS256");
+            $response->getBody()->write(json_encode(
+                array(
+                    "token" => "Bearer ".$token
+                )
+            ));
+            return $response->withStatus(200);
+        }
+    
+        $response->getBody()->write(json_encode(array(
+            "error" => "Invalid Credentials",
+            "status_code" => 401
+        )));
+
+        return $response->withStatus(401);
+    }
+
+    
 }
