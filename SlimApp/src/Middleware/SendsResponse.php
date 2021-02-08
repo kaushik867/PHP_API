@@ -33,7 +33,7 @@ class SendsResponse
         return $response->withHeader('Content-Type','application/json')
         ->withHeader('Access-Control-Allow-Origin','*')
         ->withHeader('Access-Control-Allow-Methods','GET, POST, OPTIONS, PUT, DELETE')
-        ->withHeader('Access-Control-Allow-Headers','Acess-Control-Allow-Headers,Content-Type,Acess-Control-Allow-Methods');
+        ->withHeader('Access-Control-Allow-Headers','Acess-Control-Allow-Headers,Content-Type,Acess-Control-Allow-Methods,Authorization');
         
     }
 }
