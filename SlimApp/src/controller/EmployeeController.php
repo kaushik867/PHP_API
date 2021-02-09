@@ -10,7 +10,6 @@
 
 namespace App\controller;
 
-use Slim\App;
 use Psr\http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use App\dbHandler\DbResponse;
@@ -45,14 +44,16 @@ class EmployeeController extends DbResponse{
     
     public function getEmpDetails(ServerRequestInterface $request, ResponseInterface $response )
     {
+        $pageNo=(isset($_GET['page']) && $_GET['page'] > 0) ? $_GET['page'] : 1;
+        $limit=(isset($_GET['limit']) && $_GET['limit'] > 0) ? $_GET['limit'] : 10;
+        $query=(isset($_GET['query']) ) ? $_GET['query'] : null;
         $connection = new DbResponse();
-        $result = $connection->getEmployee();
+        $result = $connection->getEmployee($pageNo,$limit,$query);
         $response->getBody()->write(json_encode($result));
         if(array_key_exists('status', $result))
         {
             return $response->withStatus($result['status']);
         }
-       
         return $response;
     }
 
@@ -152,8 +153,8 @@ class EmployeeController extends DbResponse{
         $user = $credentials['user'] ?? null;
         $password = $credentials['password'] ?? null;
 
-        
-        if($user == $_ENV['USERNAME'] && password_verify($password, $_ENV['USERPASSWORD'])){
+        if($user == $_ENV['USERNAME'] && password_verify($password, $_ENV['USERPASSWORD']))
+        {
             $token = JWT::encode(['user'=> $_ENV['USERNAME'], 'password'=> $_ENV['USERPASSWORD']],$_ENV['JWT_SECRET'],"HS256");
             $response->getBody()->write(json_encode(
                 array(

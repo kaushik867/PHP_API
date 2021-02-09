@@ -34,11 +34,15 @@ class FmCrud extends FileMaker{
  * @return array $data all records in key and value pair
  */
 
-    static function getEmployeeDetails($layout){
+    static function getEmployeeDetails($layout, $pageNo, $limit,$query){
         $fm = self::connect();
+        $min = ($pageNo-1)*$limit;
         $find = $fm->newFindCommand($layout);
+        $find->setRange($min,$limit);
+        if(isset($query)){
+            $find->addFindCriterion('FirstName_xt',$query);
+        }
         $result = $find->execute();
-
         if(FileMaker::isError($result))
         {
             return $result;
@@ -73,10 +77,16 @@ class FmCrud extends FileMaker{
                     $data[$index]['email'][$emialDetails->getField('contacts_EMAIL::Type_xt')] = $emialDetails->getField('contacts_EMAIL::Email_xt');
                 }
             }
+           
             $index++;
        }
-    
-       return $data;
+       
+       $results['totalRecords'] = $result->getFoundSetCount();
+       $results['recordsCount'] = count($records);
+       $results['pageNo'] = $pageNo;
+       $results['limit'] = $limit;
+       $results['results'] = $data;
+       return $results;
         
     }
 

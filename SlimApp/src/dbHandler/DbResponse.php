@@ -62,13 +62,13 @@ class DbResponse extends FileMaker{
     function sendError($error)
     {
         new ErrorLog($error);
-        if($error->getCode() != 101)
+        if($error->getCode() == 101 || $error->getCode() == 401 )
         {
-            return $this->error;
+            return $this->dataNotFound;
         }
         else
         {
-            return $this->dataNotFound;
+            return $this->error;
         }
         
     }
@@ -80,9 +80,9 @@ class DbResponse extends FileMaker{
  * @return array $data
  */
 
-    function getEmployee()
+    function getEmployee($pageNo,$limit,$query)
     {
-        $fm = fm::getEmployeeDetails('Contact details');
+        $fm = fm::getEmployeeDetails('Contact details',$pageNo,$limit,$query);
         
         if($fm instanceof FileMaker_Error)
         {
